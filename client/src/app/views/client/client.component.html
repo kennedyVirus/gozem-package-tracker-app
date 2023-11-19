@@ -1,0 +1,109 @@
+<div>
+  <app-index-navbar></app-index-navbar>
+  <main>
+    <section class="relative w-full h-full py-40 min-h-screen">
+      <div
+        class="absolute top-0 w-full h-full bg-blueGray-800 bg-no-repeat bg-full"
+        style="background-image: url('assets/img/register_bg_2.png')"
+      >
+        <div class="container mx-auto px-4 bg-white rounded">
+          <div class="mt-16 rounded-t mb-0 px-6 py-6">
+            <form
+              class="text-center flex justify-center"
+              [formGroup]="clientForm"
+              (ngSubmit)="handleSubmit()"
+            >
+              <div class="relative w-full lg:w-8/12 mb-3">
+                <label
+                  class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                  htmlFor="grid-password"
+                >
+                  Enter package ID
+                </label>
+                <input
+                  type="text"
+                  class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  formControlName="package"
+                />
+              </div>
+              <div
+                class="grid justify-items-stretch relative w-full lg:w-4/12 mb-3"
+              >
+                <button
+                  class="ml-3 justify-self-start mt-6 bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                  type="submit"
+                >
+                  Track
+                </button>
+              </div>
+            </form>
+          </div>
+          <div
+            *ngIf="packageInfo?._id"
+            class="flex flex-wrap items-center mt-4 mb-6"
+          >
+            <div class="w-full md:w-5/12 px-4 mr-auto ml-auto">
+              <h3
+                class="text-3xl mb-2 font-semibold leading-normal text-blueGray-600"
+              >
+                Package details
+              </h3>
+              <p
+                class="text-lg font-light leading-relaxed mt-4 mb-4 text-blueGray-600"
+              >
+                reference : {{ packageInfo._id }} <br />
+                description : {{ packageInfo.description }} <br />
+                weight : {{ packageInfo.weight }} <br />
+                width : {{ packageInfo.width }} <br />
+                height : {{ packageInfo.height }} <br />
+                depth : {{ packageInfo.depth }} <br />
+                from: {{ packageInfo.fromName }} <br />
+                to : {{ packageInfo.toName }} <br />
+              </p>
+
+              <h3
+                class="text-3xl mb-2 font-semibold leading-normal text-blueGray-600"
+              >
+                Delivery details
+              </h3>
+              <p
+                class="text-lg font-light leading-relaxed mt-0 mb-4 text-blueGray-600"
+              >
+                reference : {{ packageInfo.activeDelivery?._id }} <br />
+                status : {{ packageInfo.activeDelivery?.status }}
+              </p>
+            </div>
+
+            <div class="w-full md:w-4/12 px-4 mr-auto ml-auto">
+              <div
+                class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-red-600 h-80"
+              >
+                <app-map-example
+                  [senderLat]="packageInfo?.activeDelivery?.location?.lat"
+                  [senderLng]="packageInfo?.activeDelivery?.location?.lng"
+                  [receiverLat]="packageInfo?.toLocation?.lat"
+                  [receiverLng]="packageInfo?.toLocation?.lat"
+                ></app-map-example>
+              </div>
+            </div>
+          </div>
+
+          <div
+            *ngIf="alertMessage.length > 0"
+            class="flex flex-wrap items-center mt-4"
+          >
+            <div class="w-full md:w-5/12 px-4 mr-auto ml-auto">
+              <h3
+                class="text-3xl mb-2 font-semibold leading-normal text-blueGray-600"
+              >
+                {{ alertMessage }}
+              </h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-footer-small [absolute]="true"></app-footer-small>
+    </section>
+  </main>
+</div>

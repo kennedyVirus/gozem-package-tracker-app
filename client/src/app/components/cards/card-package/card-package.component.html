@@ -1,0 +1,95 @@
+<div
+  class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-white"
+  [ngClass]="color === 'light' ? 'bg-white' : 'bg-red-900 text-white'"
+>
+  <div class="rounded-t bg-white mb-0 px-6 py-6">
+    <div class="text-center flex justify-between">
+      <h6 class="text-blueGray-700 text-xl font-bold">Package list</h6>
+      <a
+        [routerLink]="['/admin/package/create']"
+        class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+      >
+        Create package
+      </a>
+    </div>
+  </div>
+  <div class="block w-full overflow-x-auto">
+    <!-- Projects table -->
+    <table class="items-center w-full bg-transparent border-collapse">
+      <thead>
+        <tr>
+          <th
+            class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+            [ngClass]="
+              color === 'light'
+                ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                : 'bg-red-800 text-red-300 border-red-700'
+            "
+          >
+            Package ref
+          </th>
+          <th
+            class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+            [ngClass]="
+              color === 'light'
+                ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                : 'bg-red-800 text-red-300 border-red-700'
+            "
+          >
+            From
+          </th>
+          <th
+            class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+            [ngClass]="
+              color === 'light'
+                ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                : 'bg-red-800 text-red-300 border-red-700'
+            "
+          >
+            To
+          </th>
+          <th
+            class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+            [ngClass]="
+              color === 'light'
+                ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                : 'bg-red-800 text-red-300 border-red-700'
+            "
+          >
+            Date
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of packages">
+          <th
+            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center"
+          >
+            <span
+              class="ml-3 font-bold"
+              [ngClass]="color === 'light' ? 'text-blueGray-600' : 'text-white'"
+            >
+              {{ item._id }}
+            </span>
+          </th>
+          <td
+            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+          >
+            {{ item.fromName }}
+          </td>
+
+          <td
+            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+          >
+            {{ item.toName }}
+          </td>
+          <td
+            class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+          >
+            {{ formatDate(item.createdAt) }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

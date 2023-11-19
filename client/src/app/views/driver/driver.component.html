@@ -1,0 +1,158 @@
+<div
+  class="absolute top-0 w-full h-full bg-blueGray-800 bg-no-repeat bg-full"
+  style="background-image: url('assets/img/register_bg_2.png')"
+>
+  <div class="container mx-auto px-4 bg-white rounded">
+    <div class="mt-16 rounded-t mb-0 px-6 py-6">
+      <form
+        class="text-center flex justify-center"
+        [formGroup]="driverForm"
+        (ngSubmit)="handleSubmit()"
+      >
+        <div class="relative w-full lg:w-8/12 mb-3">
+          <label
+            class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+            htmlFor="grid-password"
+          >
+            Enter delivery ID
+          </label>
+          <input
+            type="text"
+            class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+            formControlName="delivery"
+          />
+        </div>
+        <div class="grid justify-items-stretch relative w-full lg:w-4/12 mb-3">
+          <button
+            class="ml-3 justify-self-start mt-6 bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+            type="submit"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+    <div *ngIf="deliveryInfo?._id" class="flex flex-wrap items-center mt-4">
+      <div class="w-full md:w-4/12 px-4 mr-auto ml-auto">
+        <h3
+          class="text-3xl mb-2 font-semibold leading-normal text-blueGray-600"
+        >
+          Package details
+        </h3>
+        <p
+          class="text-lg font-light leading-relaxed mt-4 mb-4 text-blueGray-600"
+        >
+          reference : {{ deliveryInfo.package?._id }} <br />
+          description : {{ deliveryInfo.package?.description }} <br />
+          weight : {{ deliveryInfo.package?.weight }} <br />
+          width : {{ deliveryInfo.package?.width }} <br />
+          height : {{ deliveryInfo.package?.height }} <br />
+          depth : {{ deliveryInfo.package?.depth }} <br />
+          from: {{ deliveryInfo.package?.fromName }} <br />
+          to : {{ deliveryInfo.package?.toName }} <br />
+        </p>
+
+        <h3
+          class="text-3xl mb-2 font-semibold leading-normal text-blueGray-600"
+        >
+          Delivery details
+        </h3>
+        <p
+          class="text-lg font-light leading-relaxed mt-0 mb-4 text-blueGray-600"
+        >
+          reference : {{ deliveryInfo?._id }} <br />
+          status : {{ deliveryInfo?.status }}
+        </p>
+      </div>
+
+      <div class="w-full md:w-4/12 px-4 mr-auto ml-auto">
+        <div
+          class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg"
+        >
+          <app-map-example
+            [senderLat]="deliveryInfo?.location?.lat"
+            [senderLng]="deliveryInfo?.location?.lng"
+            [receiverLat]="deliveryInfo?.package?.toLocation?.lat"
+            [receiverLng]="deliveryInfo?.package?.toLocation?.lat"
+          ></app-map-example>
+        </div>
+      </div>
+
+      <div class="w-full md:w-4/12 px-4 mr-auto ml-auto">
+        <p>
+          <button
+            class="ml-3 justify-self-start mt-6 bg-lightBlue-500 text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 min-w-md"
+            type="button"
+            [ngClass]="
+              deliveryInfo?.status == 'OPEN'
+                ? 'active:bg-lightBlue-600'
+                : 'cursor-not-allowed'
+            "
+            [disabled]="deliveryInfo?.status == 'OPEN' ? false : true"
+            (click)="handleClick('PICKED-UP')"
+          >
+            Picked up
+          </button>
+        </p>
+        <p>
+          <button
+            class="ml-3 justify-self-start mt-6 bg-orange-500 text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 min-w-md"
+            type="button"
+            [ngClass]="
+              deliveryInfo?.status == 'PICKED-UP'
+                ? 'active:bg-orange-600'
+                : 'cursor-not-allowed'
+            "
+            [disabled]="deliveryInfo.status === 'PICKED-UP' ? false : true"
+            (click)="handleClick('IN-TRANSIT')"
+          >
+            In Transit
+          </button>
+        </p>
+
+        <p>
+          <button
+            class="ml-3 justify-self-start mt-6 bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 min-w-md"
+            type="button"
+            [ngClass]="
+              deliveryInfo?.status == 'IN-TRANSIT'
+                ? 'active:bg-emerald-600'
+                : 'cursor-not-allowed'
+            "
+            [disabled]="deliveryInfo.status === 'IN-TRANSIT' ? false : true"
+            (click)="handleClick('DELIVERED')"
+          >
+            Delivered
+          </button>
+        </p>
+        <p>
+          <button
+            class="ml-3 justify-self-start mt-6 bg-red-500 text-white active:bg-red-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+            type="button"
+            [ngClass]="
+              deliveryInfo?.status == 'IN-TRANSIT'
+                ? 'active:bg-red-600'
+                : 'cursor-not-allowed'
+            "
+            [disabled]="deliveryInfo.status === 'IN-TRANSIT' ? false : true"
+            (click)="handleClick('FAILED')"
+          >
+            Failed
+          </button>
+        </p>
+      </div>
+    </div>
+    <div
+      *ngIf="alertMessage.length > 0"
+      class="flex flex-wrap items-center mt-4"
+    >
+      <div class="w-full md:w-5/12 px-4 mr-auto ml-auto">
+        <h3
+          class="text-3xl mb-2 font-semibold leading-normal text-blueGray-600"
+        >
+          {{ alertMessage }}
+        </h3>
+      </div>
+    </div>
+  </div>
+</div>
